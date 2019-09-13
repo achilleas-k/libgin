@@ -3,6 +3,7 @@ package libgin
 // Common utilities for the GIN services
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -16,9 +17,12 @@ func ReadConfDefault(key, defval string) string {
 	return value
 }
 
-// ReadConf returns the value of a configuration env variable.
-// If the variable is not set, an empty string is returned (ignores any errors).
+// ReadConf returns the value of a configuration env variable and panics if
+// it's not set.
 func ReadConf(key string) string {
-	value, _ := os.LookupEnv(key)
+	value, ok := os.LookupEnv(key)
+	if !ok {
+		panic(fmt.Sprintf("%s not set", key))
+	}
 	return value
 }

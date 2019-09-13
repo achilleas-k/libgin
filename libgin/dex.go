@@ -9,9 +9,11 @@ import (
 // NOTE: TEMPORARY COPY FROM gin-dex
 
 type SearchRequest struct {
-	Keywords string
-	SType    int
-	RepoIDs  []int64
+	Token  string
+	CsrfT  string
+	UserID int64
+	Query  string
+	SType  int64
 }
 
 const (
@@ -59,8 +61,23 @@ type IndexCommit struct {
 	IndexingTime time.Time
 }
 
-type IndexRequest struct {
-	UserID   int64
-	RepoID   int64
-	RepoPath string
-}
+// StartIndexing sends an indexing request to the configured indexing service
+// for a repository.
+// func StartIndexing(user, owner *gogs.User, repo *gogs.Repository) {
+// 	if !setting.Search.Do {
+// 		return
+// 	}
+// 	var ireq struct{ RepoID, RepoPath string }
+// 	ireq.RepoID = fmt.Sprintf("%d", repo.ID)
+// 	ireq.RepoPath = repo.FullName()
+// 	data, err := json.Marshal(ireq)
+// 	if err != nil {
+// 		return
+// 	}
+// 	req, _ := http.NewRequest(http.MethodPost, setting.Search.IndexURL, bytes.NewReader(data))
+// 	client := http.Client{}
+// 	resp, err := client.Do(req)
+// 	if err != nil || resp.StatusCode != http.StatusOK {
+// 		return
+// 	}
+// }
